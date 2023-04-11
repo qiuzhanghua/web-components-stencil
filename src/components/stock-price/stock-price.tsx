@@ -12,6 +12,13 @@ export class StockPrice {
   @Element() el: HTMLElement;
 
   @State() fetchedPrice: number;
+  @State() stockUserInput: string;
+  @State() stockInputValid = false;
+
+  onUserInput(event: Event) {
+    this.stockUserInput = (event.target as HTMLInputElement).value;
+    this.stockInputValid = this.stockUserInput.trim() !== '';
+  }
 
   onFetchStockPrice(event: Event) {
     event.preventDefault();
@@ -34,8 +41,12 @@ export class StockPrice {
   render() {
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
-        <input id="stock-symbol" ref = {el => this.stockInput = el}/>
-        <button type="submit">Fetch</button>
+        <input id="stock-symbol"
+               ref = {el => this.stockInput = el}
+               value={this.stockUserInput}
+               onInput={this.onUserInput.bind(this)}
+        />
+        <button type="submit" disabled={!this.stockInputValid}>Fetch</button>
       </form>,
       <div>
         <p>Price ${this.fetchedPrice}</p>
