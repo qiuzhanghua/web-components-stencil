@@ -120,12 +120,7 @@ export class StockPrice {
       dataContent = <p>Price ${this.fetchedPrice}</p>;
     }
     if (this.loading) {
-      dataContent = <div class="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>;
+      dataContent = <tj-spinner/>;
     }
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>

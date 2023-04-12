@@ -30,6 +30,8 @@ export namespace Components {
     interface StockPrice {
         "stockSymbol": string;
     }
+    interface TjSpinner {
+    }
 }
 export interface StockFinderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -60,11 +62,18 @@ declare global {
         prototype: HTMLStockPriceElement;
         new (): HTMLStockPriceElement;
     };
+    interface HTMLTjSpinnerElement extends Components.TjSpinner, HTMLStencilElement {
+    }
+    var HTMLTjSpinnerElement: {
+        prototype: HTMLTjSpinnerElement;
+        new (): HTMLTjSpinnerElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
         "side-drawer": HTMLSideDrawerElement;
         "stock-finder": HTMLStockFinderElement;
         "stock-price": HTMLStockPriceElement;
+        "tj-spinner": HTMLTjSpinnerElement;
     }
 }
 declare namespace LocalJSX {
@@ -92,11 +101,14 @@ declare namespace LocalJSX {
     interface StockPrice {
         "stockSymbol"?: string;
     }
+    interface TjSpinner {
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
         "side-drawer": SideDrawer;
         "stock-finder": StockFinder;
         "stock-price": StockPrice;
+        "tj-spinner": TjSpinner;
     }
 }
 export { LocalJSX as JSX };
@@ -107,6 +119,7 @@ declare module "@stencil/core" {
             "side-drawer": LocalJSX.SideDrawer & JSXBase.HTMLAttributes<HTMLSideDrawerElement>;
             "stock-finder": LocalJSX.StockFinder & JSXBase.HTMLAttributes<HTMLStockFinderElement>;
             "stock-price": LocalJSX.StockPrice & JSXBase.HTMLAttributes<HTMLStockPriceElement>;
+            "tj-spinner": LocalJSX.TjSpinner & JSXBase.HTMLAttributes<HTMLTjSpinnerElement>;
         }
     }
 }
