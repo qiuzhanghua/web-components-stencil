@@ -35,7 +35,12 @@
     </nav>
   </side-drawer>
 
-  <stock-price style="position: absolute; top: 20px;" stock-symbol="MSFT"></stock-price>
+  <div style="position: absolute; top: 20px; display: block; margin-bottom: 3rem;">
+    <stock-price stock-symbol="MSFT"></stock-price>
+  </div>
+  <div style="position: absolute; top: 220px; display: block;">
+    <p>finder</p>
+    <stock-finder></stock-finder></div>
   <script>
     const toggleButton = document.getElementById("toggle-button");
     toggleButton.addEventListener("click", () => {
