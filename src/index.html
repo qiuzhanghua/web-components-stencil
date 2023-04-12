@@ -49,12 +49,6 @@
   <stock-finder></stock-finder>
 </div>
 <script>
-  const stockFinder = document.querySelector('stock-finder');
-  stockFinder.addEventListener('stockSymbolSelected', (event) => {
-    console.log(event.detail);
-  });
-</script>
-<script>
   const toggleButton = document.getElementById('toggle-button');
   toggleButton.addEventListener('click', () => {
     const sideDrawer = document.querySelector('side-drawer');
