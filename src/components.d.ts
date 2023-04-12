@@ -26,6 +26,7 @@ export namespace Components {
         "title": string;
     }
     interface StockPrice {
+        "stockSymbol": string;
     }
 }
 declare global {
@@ -73,6 +74,7 @@ declare namespace LocalJSX {
         "title"?: string;
     }
     interface StockPrice {
+        "stockSymbol"?: string;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;

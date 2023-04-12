@@ -1,9 +1,10 @@
-import { Component, Element, h, State } from '@stencil/core';
-import {AV_API_KEY} from "../../global/global";
+import { Component, Element, h, Prop, State } from '@stencil/core';
+import { AV_API_KEY } from '../../global/global';
+
 @Component({
   tag: 'stock-price',
   styleUrl: 'stock-price.css',
-  shadow: true
+  shadow: true,
 })
 export class StockPrice {
 
@@ -15,6 +16,7 @@ export class StockPrice {
   @State() stockUserInput: string;
   @State() stockInputValid = false;
   @State() error: string;
+  @Prop() stockSymbol: string;
 
   onUserInput(event: Event) {
     this.stockUserInput = (event.target as HTMLInputElement).value;
@@ -25,6 +27,18 @@ export class StockPrice {
     event.preventDefault();
     // const stockSymbol = (this.el.shadowRoot.querySelector('#stock-symbol') as HTMLInputElement).value;
     const stockSymbol = this.stockInput.value;
+    this.fetchStockPrice(stockSymbol);
+  }
+
+  componentDidLoad() {
+    if (this.stockSymbol) {
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
+  }
+
+  fetchStockPrice(stockSymbol: string) {
     fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${stockSymbol}&apikey=${AV_API_KEY}`)
       .then(res => {
         if (res.status !== 200) {
@@ -44,26 +58,26 @@ export class StockPrice {
         this.error = err.message;
       });
   }
+
   render() {
     let dataContent = <p>Please enter a symbol!</p>;
     if (this.error) {
       dataContent = <p>{this.error}</p>;
-    } else
-    if (this.fetchedPrice) {
+    } else if (this.fetchedPrice) {
       dataContent = <p>Price ${this.fetchedPrice}</p>;
     }
     return [
       <form onSubmit={this.onFetchStockPrice.bind(this)}>
-        <input id="stock-symbol"
-               ref = {el => this.stockInput = el}
+        <input id='stock-symbol'
+               ref={el => this.stockInput = el}
                value={this.stockUserInput}
                onInput={this.onUserInput.bind(this)}
         />
-        <button type="submit" disabled={!this.stockInputValid}>Fetch</button>
+        <button type='submit' disabled={!this.stockInputValid}>Fetch</button>
       </form>,
       <div>
         {dataContent}
-      </div>
+      </div>,
     ];
   }
 
