@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Prop, State, h } from '@stencil/core';
+import { Component, Event, EventEmitter, State, h } from '@stencil/core';
 import { AV_API_KEY } from '../../global/global';
 
 @Component({
@@ -8,6 +8,9 @@ import { AV_API_KEY } from '../../global/global';
 })
 export class StockFinder {
   stockNameInput: HTMLInputElement;
+  @State() searchResults: { symbol: string, name: string }[] = [];
+  @State() searchResultsError: string;
+  @Event({bubbles: true, composed: true}) stockSymbolSelected: EventEmitter<string>;
 
   onFindStocks = (event: Event) => {
     event.preventDefault();
@@ -25,11 +28,18 @@ export class StockFinder {
         return res.json();
       })
       .then(parsedRes => {
+        this.searchResults = parsedRes['bestMatches'].map(match => {
+          return { symbol: match['1. symbol'], name: match['2. name'] };
+        });
         console.log(parsedRes);
       })
       .catch(err => {
-      console.log(err);
-    });
+        console.log(err);
+      });
+  }
+
+  onSelectSymbol(symbol: string) {
+    this.stockSymbolSelected.emit(symbol);
   }
 
   render() {
@@ -38,6 +48,9 @@ export class StockFinder {
         <input id='stock-symbol' ref={el => this.stockNameInput = el} />
         <button type='submit'>Find</button>
       </form>,
+      <ul>
+        {this.searchResults.map(result => <li onClick={this.onSelectSymbol.bind(this, result.symbol)}><strong>{result.symbol}</strong> - {result.name}</li>)}
+      </ul>,
     ];
   }
 }
