@@ -12,6 +12,7 @@ export class StockPrice {
 
   @Element() el: HTMLElement;
 
+  initialStockSymbol: string;
   @State() fetchedPrice: number;
   @State() stockUserInput: string;
   @State() stockInputValid = false;
@@ -38,6 +39,7 @@ export class StockPrice {
 
   componentDidLoad() {
     if (this.stockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
       this.stockUserInput = this.stockSymbol;
       this.stockInputValid = true;
       this.fetchStockPrice(this.stockSymbol);
@@ -50,6 +52,13 @@ export class StockPrice {
 
   componentDidUpdate() {
     console.log('componentDidUpdate');
+    // set value to the stock symbol outside the component
+    if (this.stockSymbol !== this.initialStockSymbol) {
+      this.initialStockSymbol = this.stockSymbol;
+      this.stockUserInput = this.stockSymbol;
+      this.stockInputValid = true;
+      this.fetchStockPrice(this.stockSymbol);
+    }
   }
 
   disconnectedCallback() {
