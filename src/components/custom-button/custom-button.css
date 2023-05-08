@@ -1,0 +1,9 @@
+/* custom-button.css */
+:host {
+  all: inherit !important;
+  display: contents !important;
+}
+
+:host button {
+  border: purple 2px solid !important;
+}

@@ -6,6 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface CustomButton {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -38,6 +40,12 @@ export interface StockFinderCustomEvent<T> extends CustomEvent<T> {
     target: HTMLStockFinderElement;
 }
 declare global {
+    interface HTMLCustomButtonElement extends Components.CustomButton, HTMLStencilElement {
+    }
+    var HTMLCustomButtonElement: {
+        prototype: HTMLCustomButtonElement;
+        new (): HTMLCustomButtonElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -69,6 +77,7 @@ declare global {
         new (): HTMLTjSpinnerElement;
     };
     interface HTMLElementTagNameMap {
+        "custom-button": HTMLCustomButtonElement;
         "my-component": HTMLMyComponentElement;
         "side-drawer": HTMLSideDrawerElement;
         "stock-finder": HTMLStockFinderElement;
@@ -77,6 +86,8 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface CustomButton {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -104,6 +115,7 @@ declare namespace LocalJSX {
     interface TjSpinner {
     }
     interface IntrinsicElements {
+        "custom-button": CustomButton;
         "my-component": MyComponent;
         "side-drawer": SideDrawer;
         "stock-finder": StockFinder;
@@ -115,6 +127,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "custom-button": LocalJSX.CustomButton & JSXBase.HTMLAttributes<HTMLCustomButtonElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "side-drawer": LocalJSX.SideDrawer & JSXBase.HTMLAttributes<HTMLSideDrawerElement>;
             "stock-finder": LocalJSX.StockFinder & JSXBase.HTMLAttributes<HTMLStockFinderElement>;
